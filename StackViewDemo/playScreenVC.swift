@@ -11,12 +11,11 @@
 import UIKit
 import SnapKit
 
-class playScreenVC: UIViewController {
+class playScreenVC: UIViewController, UIImagePickerControllerDelegate {
     var lineOne: [Bool] = [true,true,true,true,true], lineTwo: [Bool] = [true,true,true,true], lineThree: [Bool] = [true,true,true], lineFour: [Bool] = [true,true], lineFive: [Bool] = [true], buttonSwitch: [Bool] = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true], solidifyEntry: [Bool] = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    
     var playDidWin = false
     var total = 0
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,7 +23,9 @@ class playScreenVC: UIViewController {
     }
     
     func setUpView() {
+        view.addBackground()
         self.view.addSubview(turnDoneButton)
+        self.view.addSubview(resetButton)
         self.view.addSubview(backButton)
         self.view.addSubview(oneButton)
         self.view.addSubview(twoButton)
@@ -45,24 +46,32 @@ class playScreenVC: UIViewController {
         view.backgroundColor = .blue
         backButton.snp.makeConstraints { (make) in //make is lamda function (in line function)
             //set variables for make and assigned to make constraints
-            make.top.equalTo(turnDoneButton)
-            make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(50)
+            make.top.equalTo(resetButton)
+            make.right.equalTo(resetButton.snp.left).offset(-50)
             make.height.equalTo(40) //buttons 25 is good
             make.width.equalTo(150)
         }
         backButton.addTarget(self, action: #selector(self.backButtonPressed),for: .touchUpInside)
         turnDoneButton.snp.makeConstraints { (make) in //make is lamda function (in line function)
             //set variables for make and assigned to make constraints
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-50)
-            //make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(20)
-            make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-50)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(fifteenButton.snp.bottom).offset(25)
             make.height.equalTo(40) //buttons 25 is good
             make.width.equalTo(150)
         }
         turnDoneButton.addTarget(self, action: #selector(self.turnDone),for: .touchUpInside)
+        resetButton.snp.makeConstraints { (make) in //make is lamda function (in line function)
+            //set variables for make and assigned to make constraints
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-50)
+            //make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(20)
+            make.left.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(25)
+            make.height.equalTo(40) //buttons 25 is good
+            make.width.equalTo(150)
+        }
+        resetButton.addTarget(self, action: #selector(self.resetButtonPressed),for: .touchUpInside)
         oneButton.snp.makeConstraints { (make) in //make is lamda function (in line function)
             //set variables for make and assigned to make constraints
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(40)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(60)
             //make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(20)
             make.left.equalTo(twoButton).offset(-70)
             make.height.equalTo(70) //buttons 25 is good
@@ -187,352 +196,351 @@ class playScreenVC: UIViewController {
     
     let backButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .red //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("Go Back", for: .normal)  //setting a name for your button with normal condition
+        button.backgroundColor = .systemPink //create custom button !
+        button.setTitle("Home", for: .normal)  //setting a name for your button with normal condition
         button.isUserInteractionEnabled = true //setting button as user interactable
         button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 30)
+        button.setTitleColor(UIColor.appBG, for: .normal)
+        button.layer.cornerRadius = 7
+        return button
+    }()
+    let resetButton: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = .systemPink //create custom button !
+        button.setTitle("Reset", for: .normal)  //setting a name for your button with normal condition
+        button.isUserInteractionEnabled = true //setting button as user interactable
+        button.clipsToBounds = true //stays within its constraints
+        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 30)
+        button.setTitleColor(UIColor.appBG, for: .normal)
+        button.layer.cornerRadius = 7
         return button
     }()
     let turnDoneButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .red //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
+        button.backgroundColor = .systemPink //create custom button !
         button.setTitle("End Turn", for: .normal)  //setting a name for your button with normal condition
         button.isUserInteractionEnabled = true //setting button as user interactable
         button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 30)
+        button.setTitleColor(UIColor.appBG, for: .normal)
+        button.layer.cornerRadius = 7
         return button
     }()
     
     let oneButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("1", for: .normal)  //setting a name for your button with normal condition
+        let button = UIButton()
+        let btnImage = UIImage(named: "Lit Match")
+        button.setImage(btnImage , for: UIControl.State.normal)
         button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
+        button.clipsToBounds = true //stays within its constraint
         return button
-        
     }()
     let twoButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("2", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
         
     }()
     let threeButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("3", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let fourButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("4", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let fiveButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("5", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let sixButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("6", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let sevenButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("7", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let eightButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("8", for: .normal)  //setting a name for your button with normal condition
+        let button = UIButton()
+        let btnImage = UIImage(named: "Lit Match")
+        button.setImage(btnImage , for: UIControl.State.normal)
         button.isUserInteractionEnabled = true //setting button as user interactable
         button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
         return button
-        
     }()
     let nineButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("9", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let tenButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("10", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let elevenButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("11", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let twelveButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("12", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let thirteenButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("13", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let fourteenButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("14", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     let fifteenButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .white //create custom button ! //by doing .label, accouting for color of phone (dark mode and light mode)
-        button.setTitle("15", for: .normal)  //setting a name for your button with normal condition
-        button.isUserInteractionEnabled = true //setting button as user interactable
-        button.clipsToBounds = true //stays within its constraints
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15) //swift doesn't know that we set it so make optional
-        button.setTitleColor(.red, for: .normal)
-        return button
-        
+       let btnImage = UIImage(named: "Lit Match")
+       button.setImage(btnImage , for: UIControl.State.normal)
+       button.isUserInteractionEnabled = true //setting button as user interactable
+       button.clipsToBounds = true //stays within its constraints
+       return button
     }()
     
     @objc func oneButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[0] == false {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineOne[0].toggle()
             buttonSwitch[0].toggle()
             if buttonSwitch[0] == false {
-                oneButton.backgroundColor = .black
+                oneButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                oneButton.backgroundColor = .white
+                oneButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func twoButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[1] == false {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineOne[1].toggle()
             buttonSwitch[1].toggle()
             if buttonSwitch[1] == false {
-                twoButton.backgroundColor = .black
+                twoButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                twoButton.backgroundColor = .white
+                twoButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func threeButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[2] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineOne[2].toggle()
             buttonSwitch[2].toggle()
             if buttonSwitch[2] == false {
-                threeButton.backgroundColor = .black
+                threeButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                threeButton.backgroundColor = .white
+                threeButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func fourButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[3] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineOne[3].toggle()
             buttonSwitch[3].toggle()
             if buttonSwitch[3] == false {
-                fourButton.backgroundColor = .black
+                fourButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                fourButton.backgroundColor = .white
+                fourButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func fiveButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[4] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             buttonSwitch[4].toggle()
             if buttonSwitch[4] == false {
-                fiveButton.backgroundColor = .black
+                fiveButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                fiveButton.backgroundColor = .white
+                fiveButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func sixButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[5] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineTwo[0].toggle()
             buttonSwitch[5].toggle()
             if buttonSwitch[5] == false {
-                sixButton.backgroundColor = .black
+                sixButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                sixButton.backgroundColor = .white
+                sixButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func sevenButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[6] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineTwo[1].toggle()
             buttonSwitch[6].toggle()
             if buttonSwitch[6] == false {
-                sevenButton.backgroundColor = .black
+                sevenButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                sevenButton.backgroundColor = .white
+                sevenButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func eightButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[7] == false {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineTwo[2].toggle()
             buttonSwitch[7].toggle()
             if buttonSwitch[7] == false {
-                eightButton.backgroundColor = .black
+                eightButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                eightButton.backgroundColor = .white
+                eightButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func nineButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[8] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineTwo[3].toggle()
             buttonSwitch[8].toggle()
             if buttonSwitch[8] == false {
-                nineButton.backgroundColor = .black
+                nineButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                nineButton.backgroundColor = .white
+                nineButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func tenButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[9] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineThree[0].toggle()
             buttonSwitch[9].toggle()
             if buttonSwitch[9] == false {
-                tenButton.backgroundColor = .black
+                tenButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                tenButton.backgroundColor = .white
+                tenButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func elevenButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[10] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineThree[1].toggle()
             buttonSwitch[10].toggle()
             if buttonSwitch[10] == false {
-                elevenButton.backgroundColor = .black
+                elevenButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                elevenButton.backgroundColor = .white
+                elevenButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func twelveButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[11] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineThree[2].toggle()
             buttonSwitch[11].toggle()
             if buttonSwitch[11] == false {
-                twelveButton.backgroundColor = .black
+                twelveButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                twelveButton.backgroundColor = .white
+                twelveButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func thirteenButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[12] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineFour[0].toggle()
             buttonSwitch[12].toggle()
             if buttonSwitch[12] == false {
-                thirteenButton.backgroundColor = .black
+                thirteenButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                thirteenButton.backgroundColor = .white
+                thirteenButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func fourteenButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[13] == false  {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineFour[1].toggle()
             buttonSwitch[13].toggle()
             if buttonSwitch[13] == false {
-                fourteenButton.backgroundColor = .black
+                fourteenButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                fourteenButton.backgroundColor = .white
+                fourteenButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
     @objc func fifteenButtonPressed () { //denoting that it is an objective c function
         if solidifyEntry[14] == false {
+            let btnImageLit = UIImage(named: "Lit Match")
+            let btnImageBurnt = UIImage(named: "Burnt Match")
             lineFive[0].toggle()
             buttonSwitch[14].toggle()
             if buttonSwitch[14] == false {
-                fifteenButton.backgroundColor = .black
+                fifteenButton.setImage(btnImageBurnt , for: UIControl.State.normal)
             } else {
-                fifteenButton.backgroundColor = .white
+                fifteenButton.setImage(btnImageLit , for: UIControl.State.normal)
             }
         }
     }
@@ -550,7 +558,10 @@ class playScreenVC: UIViewController {
         let navigationVC = self.navigationController //root view controller (main VC)
         navigationVC!.pushViewController(mainScreenVC(), animated: true) //animating transition
     }
-    
+    @objc func resetButtonPressed () {
+        resetButtons()
+        resetArrays()
+    }
     @objc func turnDone () { //denoting that it is an objective c function
         
         UIView.animate(withDuration: 0.2,
@@ -604,23 +615,45 @@ class playScreenVC: UIViewController {
     }
     
     func resetButtons () {
-            oneButton.backgroundColor = .white
-            twoButton.backgroundColor = .white
-            threeButton.backgroundColor = .white
-            fourButton.backgroundColor = .white
-            fiveButton.backgroundColor = .white
-            sixButton.backgroundColor = .white
-            sevenButton.backgroundColor = .white
-            eightButton.backgroundColor = .white
-            nineButton.backgroundColor = .white
-            tenButton.backgroundColor = .white
-            elevenButton.backgroundColor = .white
-            twelveButton.backgroundColor = .white
-            thirteenButton.backgroundColor = .white
-            fourteenButton.backgroundColor = .white
-            fifteenButton.backgroundColor = .white
+            let btnImageLit = UIImage(named: "Lit Match")
+            oneButton.setImage(btnImageLit , for: UIControl.State.normal)
+            twoButton.setImage(btnImageLit , for: UIControl.State.normal)
+            threeButton.setImage(btnImageLit , for: UIControl.State.normal)
+            fourButton.setImage(btnImageLit , for: UIControl.State.normal)
+            fiveButton.setImage(btnImageLit , for: UIControl.State.normal)
+            sixButton.setImage(btnImageLit , for: UIControl.State.normal)
+            sevenButton.setImage(btnImageLit , for: UIControl.State.normal)
+            eightButton.setImage(btnImageLit , for: UIControl.State.normal)
+            nineButton.setImage(btnImageLit , for: UIControl.State.normal)
+            tenButton.setImage(btnImageLit , for: UIControl.State.normal)
+            elevenButton.setImage(btnImageLit , for: UIControl.State.normal)
+            twelveButton.setImage(btnImageLit , for: UIControl.State.normal)
+            thirteenButton.setImage(btnImageLit , for: UIControl.State.normal)
+            fourteenButton.setImage(btnImageLit , for: UIControl.State.normal)
+            fifteenButton.setImage(btnImageLit , for: UIControl.State.normal)
         }
+    
+}
+extension UIView {
+func addBackground(imageName: String = "instructionsBackground", contentMode: UIView.ContentMode = .scaleToFill) {
+    // setup the UIImageView
+    let backgroundImageView = UIImageView(frame: UIScreen.main.bounds)
+    backgroundImageView.image = UIImage(named: imageName)
+    backgroundImageView.contentMode = contentMode
+    backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+
+    addSubview(backgroundImageView)
+    sendSubviewToBack(backgroundImageView)
+
+    // adding NSLayoutConstraints
+    let leadingConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)
+    let trailingConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)
+    let topConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
+    let bottomConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+
+    NSLayoutConstraint.activate([leadingConstraint, trailingConstraint, topConstraint, bottomConstraint])
 }
 
 
+}
 

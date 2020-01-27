@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		532B4E7723DF3E5F006EC0A0 /* App_Graphics in Resources */ = {isa = PBXBuildFile; fileRef = 532B4E7623DF3E5F006EC0A0 /* App_Graphics */; };
+		532B4E9623DF44F8006EC0A0 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53E4B4F723DE33E8009F9AB4 /* Montserrat-Regular.ttf */; };
+		532B4E9723DF44FB006EC0A0 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53E4B4F623DE33E5009F9AB4 /* Montserrat-Bold.ttf */; };
 		534A887123789FCE00DFCCE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534A887023789FCE00DFCCE6 /* AppDelegate.swift */; };
 		534A887323789FCE00DFCCE6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534A887223789FCE00DFCCE6 /* SceneDelegate.swift */; };
 		534A887523789FCE00DFCCE6 /* mainScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534A887423789FCE00DFCCE6 /* mainScreenVC.swift */; };
@@ -21,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		4B7BED617A12E137EA8C8295 /* Pods-StackViewDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StackViewDemo.release.xcconfig"; path = "Target Support Files/Pods-StackViewDemo/Pods-StackViewDemo.release.xcconfig"; sourceTree = "<group>"; };
+		532B4E7623DF3E5F006EC0A0 /* App_Graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = App_Graphics; path = ../../App_Graphics; sourceTree = "<group>"; };
 		534A886D23789FCE00DFCCE6 /* Matches.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matches.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		534A887023789FCE00DFCCE6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		534A887223789FCE00DFCCE6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 				534A887E23789FCF00DFCCE6 /* Info.plist */,
 				53E4B4ED23DE2202009F9AB4 /* MusicPlayer.swift */,
 				53E4B4FA23DE384B009F9AB4 /* Fluidity.mp3 */,
+				532B4E7623DF3E5F006EC0A0 /* App_Graphics */,
 			);
 			path = StackViewDemo;
 			sourceTree = "<group>";
@@ -175,7 +180,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				534A887D23789FCF00DFCCE6 /* LaunchScreen.storyboard in Resources */,
+				532B4E7723DF3E5F006EC0A0 /* App_Graphics in Resources */,
+				532B4E9723DF44FB006EC0A0 /* Montserrat-Bold.ttf in Resources */,
 				534A887A23789FCF00DFCCE6 /* Assets.xcassets in Resources */,
+				532B4E9623DF44F8006EC0A0 /* Montserrat-Regular.ttf in Resources */,
 				53E4B4FB23DE384B009F9AB4 /* Fluidity.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
